@@ -29,22 +29,22 @@ scrapy crawl <spider_id>
 ```
 response.css("CSS_SELECTOR")
 ```
-** Kết quả trả về là object `SelectorList` (danh sách các node HTML tìm được).
-** Tiếp tục bằng cách lấy một kết quả bằng `.get()` hoặc lấy tất cả kết quả bằng `.getall()`
+  * Kết quả trả về là object `SelectorList` (danh sách các node HTML tìm được).
+  * Tiếp tục bằng cách lấy một kết quả bằng `.get()` hoặc lấy tất cả kết quả bằng `.getall()`
 
 * Ví dụ minh hoạ:
-** Giả sử HTML có dạng:
+  * Giả sử HTML có dạng:
 ```
 <div class="quote">
   <span class="text">“The world as we have created it...”</span>
   <span>by <small class="author">Albert Einstein</small></span>
 </div>
 ```
-** Lấy trích dẫn:
+  * Lấy trích dẫn:
 ```
 response.css("div.quote span.text::text").get()
 ```
-** Lấy tên tác giả
+  * Lấy tên tác giả
 ```
 response.css("div.quote small.author::text").get()
 ```
@@ -55,9 +55,10 @@ Output:
 'Albert Einstein'
 ```
 * Các hậu tố thường dùng:
-** `::text`: chỉ lấy phần text trong tag
+
+  * `::text`: chỉ lấy phần text trong tag
 ```
 >>> response.css("div.quote small.author").get()      
 '<small class="author" itemprop="author">Albert Einstein</small>'
 ```
-** `::attr(href)`: lấy giá trị thuộc tính
+  * `::attr(href)`: lấy giá trị thuộc tính
