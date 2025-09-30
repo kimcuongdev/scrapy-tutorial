@@ -72,6 +72,7 @@ response.css("div.quote small.author::text").get()
 ```
 
 - **`::attr(href)`**: lấy giá trị thuộc tính.
+
 ### 1.3. Ngoại lệ
 Truy cập vào `SelectorList` rỗng sẽ cho ra ngoại lệ `IndexError`:
 ```
@@ -84,6 +85,7 @@ Thay vào đó, nên dùng `get()` vì kết quả trả về sẽ là `None` n�
 ```
 response.css("noelement").get()
 ```
+
 ## 2. Sử dụng XPath
 ### 2.1. Cú pháp cơ bản
 ```python
@@ -91,6 +93,7 @@ response.xpath("XPATH_EXPRESSION")
 ```
 * Trả về `SelectorList` giống `.css()`
 * Dùng `get()` để lấy một kết quả hoặc `getall()` để lấy hết
+
 ### 2.2 Ví dụ minh hoạ
 * Giả sử HTML có dạng
 ```html
@@ -100,8 +103,8 @@ response.xpath("XPATH_EXPRESSION")
 </div>
 ```
 * Lấy trích dẫn
-  * `//div[@class='quote]`: tìm tất cả thẻ `div` có `class` là `quote` trong HTML
-  * `/span[@class= 'text']`: đi xuống mức con, tìm các thẻ `span` có `class` là `text`
+  * `//div[@class='quote']`: tìm tất cả thẻ `div` có `class` là `quote` trong HTML
+  * `/span[@class='text']`: đi xuống mức con, tìm các thẻ `span` có `class` là `text`
   * `/text()`: lấy text bên trong
 ```python
 response.xpath("//div[@class='quote']/span[@class='text']/text()").get()
@@ -109,16 +112,16 @@ response.xpath("//div[@class='quote']/span[@class='text']/text()").get()
 * Lấy tác giả
   * `//small[@class='author']` để đi xuống bất kỳ mức nào, tìm thẻ `small`
 ```python
-response.xpath("//div[@class= 'quote]//small[@class='author']/text()").get()
+response.xpath("//div[@class='quote']//small[@class='author']/text()").get()
 ```
+
 ## 3. Trích xuất trong spider
 ### Từ khoá `yield`
-* `yield` biến một hàm bình thường thành *generation function*
+* `yield` biến một hàm bình thường thành *generator function*
 * Khi hàm chạy đến `yield`, nó trả về giá trị đó nhưng *không kết thúc hàm*
 * Lần gọi hàm tiếp theo sẽ tiếp tục chạy từ chỗ `yield` trở đi
 ```python
 import scrapy
-
 
 class QuotesSpider(scrapy.Spider):
     name = "quotes"
@@ -135,19 +138,21 @@ class QuotesSpider(scrapy.Spider):
                 "tags": quote.css("div.tags a.tag::text").getall(),
             }
 ```
-# Lưu trữ dữ liệu crawl được
+
+# 💾 Lưu trữ dữ liệu crawl được
 ## Feed Exports
 * Option `-O` để ghi đè nếu file đã tồn tại
 * Option `-o` thay vào đó gán dữ liệu mới vào file đã tồn tại
 ```bash
 scrapy crawl quotes -O quotes.json
 ```
-# Tìm đến url kế tiếp
+
+# 🔗 Tìm đến url kế tiếp
 * Tìm đến một url
 ```python
-        next_page = response.css("li.next a::attr(href)").get()
-        if next_page is not None:
-            yield response.follow(next_page, callback=self.parse)
+next_page = response.css("li.next a::attr(href)").get()
+if next_page is not None:
+    yield response.follow(next_page, callback=self.parse)
 ```
 * Tìm đến tất cả các url
   * `author_page_links = response.css(".author + a")`
@@ -177,14 +182,14 @@ def parse_author(self, response):
         "bio": extract_with_css(".author-description::text"),
     }
 ```
-# Truyền tham số khi gọi spider
-```
+
+# ⚙️ Truyền tham số khi gọi spider
+```bash
 scrapy crawl quotes -O quotes-humor.json -a tag=humor
 ```
 * Truyền tham số sử dụng option `-a`
-```
+```python
 import scrapy
-
 
 class QuotesSpider(scrapy.Spider):
     name = "quotes"
