@@ -1,3 +1,7 @@
+# 🚀 Tạo Scrapy Project
+```bash
+scrapy startproject <project_name>
+```
 # 📂 Cấu trúc thư mục project của Scrapy
 ```
 tutorial/
